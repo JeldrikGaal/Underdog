@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem _walkingParticleObject1;
     [SerializeField] private ParticleSystem _walkingParticleObject2;
 
+    [SerializeField] private PlayerGravity _playerGravity;
     // Timestamps
     private float _jumpKeyPressedTime;
     private float _jumpKeyReleasedTime;
@@ -53,8 +54,9 @@ public class PlayerController : MonoBehaviour
     private bool _alreadyJumpedThisFrame;
 
     private int _currentKeyBindingId;
+    private PlayerState _playerState;
     
-    public PlayerState State { get; private set; }
+    
     
     #region Unity Events
     void Update()
@@ -159,14 +161,12 @@ public class PlayerController : MonoBehaviour
     
     private void ModifyPlayerGravity(float modifier)
     {
-        //_rigidbody.gravityScale = modifier;
-        // TODO: implement custom gravity
+        _playerGravity.SetGravityScale(modifier);
     }
 
     private void ResetPlayerGravity()
     {
-        //_rigidbody.gravityScale = _data.StandardGravity;
-        // TODO: implement custom gravity
+        _playerGravity.SetGravityScale(_data.StandardGravity);
     }
     #endregion
     
@@ -448,7 +448,7 @@ public class PlayerController : MonoBehaviour
     private void JumpBuffering()
     {
         Debug.Log("buffering1");
-        if (State == PlayerState.Jumping && JumpBufferingValid())
+        if (_playerState == PlayerState.Jumping && JumpBufferingValid())
         {
             Jump();
             Debug.Log("buffering2");
@@ -506,7 +506,7 @@ public class PlayerController : MonoBehaviour
     
     private bool IsPlayerJumpingUp()
     {
-        return (State == PlayerState.Jumping && _rigidbody.velocity.y > 0 && _jumpKeyHoldTime <= _data.MaxJumpKeyHoldTime);
+        return (_playerState == PlayerState.Jumping && _rigidbody.velocity.y > 0 && _jumpKeyHoldTime <= _data.MaxJumpKeyHoldTime);
     }
     private void LimitMoveSpeedVertical()
     {
@@ -598,34 +598,34 @@ public class PlayerController : MonoBehaviour
 
     private void SetPlayerStateWalking()
     {
-        State = PlayerState.Walking;
+        _playerState = PlayerState.Walking;
     }
 
     private void ResetPlayerState()
     {
-        State = PlayerState.ResetState;
+        _playerState = PlayerState.ResetState;
     }
     
     private void SetPlayerState()
     {
-        if (State is PlayerState.HangingOnWall or PlayerState.Dashing)
+        if (_playerState is PlayerState.HangingOnWall or PlayerState.Dashing)
         {
             return;
         }
         
         if (IsGrounded() && _rigidbody.velocity.y <= 0.1f )
         {
-            State = PlayerState.Walking;
+            _playerState = PlayerState.Walking;
         }
 
         if (!IsGrounded() && _rigidbody.velocity.y  <= 0.1f)
         {
-            State = PlayerState.Falling;
+            _playerState = PlayerState.Falling;
         }
 
         if (_rigidbody.velocity.y > 0.1f)
         {
-            State = PlayerState.Jumping;
+            _playerState = PlayerState.Jumping;
         }
     }
 
