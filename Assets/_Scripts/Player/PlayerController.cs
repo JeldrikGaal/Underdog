@@ -5,10 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     
-    private KeyCode MoveKeyLeft;
-    private KeyCode MoveKeyRight;
-    private KeyCode MoveKeyJump;
-    private KeyCode MoveKeyDash;
+    private KeyCode _moveKeyLeft;
+    private KeyCode _moveKeyRight;
+    private KeyCode _moveKeyJump;
     
     public static PlayerController Instance;
 
@@ -107,10 +106,9 @@ public class PlayerController : MonoBehaviour
 
     private void SetupKeyBindings(int id)
     {
-        MoveKeyJump = _data.Keybindings[id].MoveKeyJump;
-        MoveKeyLeft = _data.Keybindings[id].MoveKeyLeft;
-        MoveKeyRight = _data.Keybindings[id].MoveKeyRight;
-        MoveKeyDash = _data.Keybindings[id].MoveKeyDash;
+        _moveKeyJump = _data.Keybindings[id].MoveKeyJump;
+        _moveKeyLeft = _data.Keybindings[id].MoveKeyLeft;
+        _moveKeyRight = _data.Keybindings[id].MoveKeyRight;
     }
 
     private void SwitchControlInput()
@@ -296,22 +294,22 @@ public class PlayerController : MonoBehaviour
     
     private bool IsMoveKeyLeftPressed()
     {
-        return Input.GetKey(MoveKeyLeft);
+        return Input.GetKey(_moveKeyLeft);
     }
 
     private bool IsMoveKeyLeftReleased()
     {
-        return Input.GetKeyUp(MoveKeyLeft);
+        return Input.GetKeyUp(_moveKeyLeft);
     }
 
     private bool IsMoveKeyRightPressed()
     {
-        return Input.GetKey(MoveKeyRight);
+        return Input.GetKey(_moveKeyRight);
     }
     
     private bool IsMoveKeyRightReleased()
     {
-        return Input.GetKeyUp(MoveKeyRight);
+        return Input.GetKeyUp(_moveKeyRight);
     }
 
     private void MoveLeft()
@@ -396,13 +394,13 @@ public class PlayerController : MonoBehaviour
     }
     private void JumpInput()
     {
-        if (Input.GetKeyDown(MoveKeyJump))
+        if (Input.GetKeyDown(_moveKeyJump))
         {
             Jump();
             SaveJumpKeyPressedTime();
         }
 
-        if (Input.GetKeyUp(MoveKeyJump))
+        if (Input.GetKeyUp(_moveKeyJump))
         {
             SaveJumpKeyReleasedTime();
         }

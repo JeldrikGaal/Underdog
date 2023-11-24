@@ -8,5 +8,5 @@ public class KEYBINDINGS : ScriptableObject
     public KeyCode MoveKeyLeft = KeyCode.A;
     public KeyCode MoveKeyRight = KeyCode.D;
     public KeyCode MoveKeyJump = KeyCode.Space;
-    public KeyCode MoveKeyDash;
+    public KeyCode InteractKey = KeyCode.E;
 }
