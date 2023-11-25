@@ -25,6 +25,8 @@ public class PlayerAnimationController : MonoBehaviour
     private static readonly int ThrowstanceHash = Animator.StringToHash("throwstance");
     private static readonly int PropertyHash = Animator.StringToHash("throw");
 
+    public static event Action PickupAnimationStarted;
+    public static event Action PickupAnimationEnded;
 
     [Serializable]
     private enum MovementType
@@ -47,7 +49,7 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerController.NotMoving += StopHorizontalMovement;
         
         PlayerController.StartedJump += StartJump;
-        PlayerController.EndedJump += EndJump;
+        GroundedChecker.OnLandedOnGround += EndJump;
 
         PickupInteractable.PickupCollected += StartPickupInteractable;
 
@@ -69,7 +71,7 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerController.NotMoving -= StopHorizontalMovement;
         
         PlayerController.StartedJump -= StartJump; 
-        PlayerController.EndedJump -= EndJump;
+        GroundedChecker.OnLandedOnGround -= EndJump;
         
         PickupInteractable.PickupCollected -= StartPickupInteractable;
         
@@ -205,5 +207,6 @@ public class PlayerAnimationController : MonoBehaviour
     private void StartPickupInteractable(PickupInteractable pickup = null)
     {
         _animator.SetTrigger(PickupHash);
+        PickupAnimationStarted?.Invoke();
     }
 }

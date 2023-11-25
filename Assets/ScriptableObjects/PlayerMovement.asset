@@ -27,7 +27,7 @@ MonoBehaviour:
   KoyoteTime: 0.25
   JumpCooldown: 0.75
   LandedMovementBlockTime: 0.8
-  PickUpMovementBlockTime: 0.5
+  PickUpMovementBlockTime: 1
   ThrowForce: 10
   StandardGravity: 1
   FallingGravity: 8.3
