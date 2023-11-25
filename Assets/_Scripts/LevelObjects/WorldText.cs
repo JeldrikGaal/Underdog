@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,7 +11,6 @@ public class WorldText : MonoBehaviour
    [SerializeField] private string _textToDisplay;
    [SerializeField] private float _timeToDisplay;
    [SerializeField] private float _spaceWaitTime;
-   
 
    public void ShowTextByLetter()
    {
