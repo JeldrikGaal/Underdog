@@ -25,6 +25,9 @@ public class PLAYERDATA : ScriptableObject
     public float LandedMovementBlockTime;
     public float PickUpMovementBlockTime;
 
+    [Header("Throwing")] 
+    public float ThrowForce;
+    
     [Header("Gravity")]
     public float StandardGravity;
     public float FallingGravity;

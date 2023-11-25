@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
     private Rigidbody _rigidbody;
     [SerializeField] private GroundedChecker _groundedChecker;
-    [SerializeField] private PlayerInteraction _playerInteraction; 
-    [SerializeField] private PLAYERDATA _data;
+    [SerializeField] private PlayerInteraction _playerInteraction;
+    [SerializeField] public PLAYERDATA Data;
     [SerializeField] private Transform _jumpEffectPosition;
     [SerializeField] private ParticleSystem _walkingParticleObject1;
     [SerializeField] private ParticleSystem _walkingParticleObject2;
@@ -139,10 +139,10 @@ public class PlayerController : MonoBehaviour
 
     private void SetupKeyBindings(int id)
     {
-        _moveKeyJump = _data.Keybindings[id].MoveKeyJump;
-        _moveKeyLeft = _data.Keybindings[id].MoveKeyLeft;
-        _moveKeyRight = _data.Keybindings[id].MoveKeyRight;
-        _interactKey = _data.Keybindings[id].InteractKey;
+        _moveKeyJump = Data.Keybindings[id].MoveKeyJump;
+        _moveKeyLeft = Data.Keybindings[id].MoveKeyLeft;
+        _moveKeyRight = Data.Keybindings[id].MoveKeyRight;
+        _interactKey = Data.Keybindings[id].InteractKey;
         
     }
 
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetLandedMovementBlockTime()
     {
-        SetMovementBlockForTime(_data.LandedMovementBlockTime);
+        SetMovementBlockForTime(Data.LandedMovementBlockTime);
     }
     
     
@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviour
 
     private void ResetPlayerGravity()
     {
-        _playerGravity.SetGravityScale(_data.StandardGravity);
+        _playerGravity.SetGravityScale(Data.StandardGravity);
     }
     #endregion
     
@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetPickupMovementBlockTime(BaseInteractable interactable)
     {
-        SetMovementBlockForTime(_data.PickUpMovementBlockTime);
+        SetMovementBlockForTime(Data.PickUpMovementBlockTime);
     }
     
     
@@ -387,20 +387,20 @@ public class PlayerController : MonoBehaviour
 
     private float GetHorizontalAccelerationDelta()
     {
-        float delta = (_data.MaxVelocity.x * _data.Acceleration * Time.deltaTime) * _wallHangVelocityOverride;
+        float delta = (Data.MaxVelocity.x * Data.Acceleration * Time.deltaTime) * _wallHangVelocityOverride;
         if ( ! IsGrounded())
         {
-            delta *= _data.AirBornAcceleartionModifier * _currentWallJumpAccelerationModifier;
+            delta *= Data.AirBornAcceleartionModifier * _currentWallJumpAccelerationModifier;
         }
         return delta;
     }
     
     private float GetHorizontalDecelerationDelta()
     {
-        float delta = (_data.MaxVelocity.x * _data.Deceleration * Time.deltaTime);
+        float delta = (Data.MaxVelocity.x * Data.Deceleration * Time.deltaTime);
         if ( ! IsGrounded())
         {
-            delta *= _data.AirBornDeceleartionModifier * _currentWallJumpDecelerationModifier;
+            delta *= Data.AirBornDeceleartionModifier * _currentWallJumpDecelerationModifier;
         }
         return delta;
     }
@@ -433,13 +433,13 @@ public class PlayerController : MonoBehaviour
 
     private void LimitMoveSpeedHorizontal()
     {
-        if (_rigidbody.velocity.x > _data.MaxVelocity.x)
+        if (_rigidbody.velocity.x > Data.MaxVelocity.x)
         {
-           SetPlayerVelocity(new Vector2(_data.MaxVelocity.x * _dashMaxVelocityModifier, _rigidbody.velocity.y));
+           SetPlayerVelocity(new Vector2(Data.MaxVelocity.x * _dashMaxVelocityModifier, _rigidbody.velocity.y));
         }
-        else if (_rigidbody.velocity.x < -_data.MaxVelocity.x)
+        else if (_rigidbody.velocity.x < -Data.MaxVelocity.x)
         {
-            SetPlayerVelocity(new Vector2(-_data.MaxVelocity.x * _dashMaxVelocityModifier, _rigidbody.velocity.y));
+            SetPlayerVelocity(new Vector2(-Data.MaxVelocity.x * _dashMaxVelocityModifier, _rigidbody.velocity.y));
         }
     }
     #endregion
@@ -485,7 +485,7 @@ public class PlayerController : MonoBehaviour
         {
             _jumpKeyHoldTime = Time.time - _jumpKeyPressedTime;
             // Limit jump key hold time to max jump key hold time
-            _jumpKeyHoldTime = Mathf.Min(_jumpKeyHoldTime, _data.MaxJumpKeyHoldTime);
+            _jumpKeyHoldTime = Mathf.Min(_jumpKeyHoldTime, Data.MaxJumpKeyHoldTime);
         }
     }
     
@@ -507,7 +507,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetJumpVelocity()
     {
-        SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, _data.JumpForce));
+        SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, Data.JumpForce));
     }
 
     private void JumpBuffering()
@@ -520,7 +520,7 @@ public class PlayerController : MonoBehaviour
 
     private bool JumpBufferingValid()
     {
-        if (Time.time - _jumpKeyPressedTime < _data.JumpBufferTime)
+        if (Time.time - _jumpKeyPressedTime < Data.JumpBufferTime)
         {
             return true;
         }
@@ -535,12 +535,12 @@ public class PlayerController : MonoBehaviour
 
     private bool IsJumpCooldownReady()
     {
-        return Time.time - _lastJumpTime > _data.JumpCooldown;
+        return Time.time - _lastJumpTime > Data.JumpCooldown;
     }
 
     private bool IsKoyoteTimingAllowed()
     {
-        if (_rigidbody.velocity.y < 0 && Time.time - _leftGroundTime < _data.KoyoteTime)
+        if (_rigidbody.velocity.y < 0 && Time.time - _leftGroundTime < Data.KoyoteTime)
         {
             return true;
         }
@@ -551,7 +551,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsFalling())
         {
-            ModifyPlayerGravity(_data.FallingGravity);
+            ModifyPlayerGravity(Data.FallingGravity);
         }
         else if (IsGrounded())
         {
@@ -569,23 +569,23 @@ public class PlayerController : MonoBehaviour
 
     private float CalculateJumpGravityModifier()
     {
-        return Mathf.Max(_data.MinJumpGravityModifier, _data.JumpGravityModifier * Mathf.Max(0, (1 - (_jumpKeyHoldTime * _data.JumpHoldTimeFactor / _data.MaxJumpKeyHoldTime)) ));
+        return Mathf.Max(Data.MinJumpGravityModifier, Data.JumpGravityModifier * Mathf.Max(0, (1 - (_jumpKeyHoldTime * Data.JumpHoldTimeFactor / Data.MaxJumpKeyHoldTime)) ));
     }
     
     private bool IsPlayerJumpingUp()
     {
-        return (_playerState == PlayerState.Jumping && _rigidbody.velocity.y > 0 && _jumpKeyHoldTime <= _data.MaxJumpKeyHoldTime);
+        return (_playerState == PlayerState.Jumping && _rigidbody.velocity.y > 0 && _jumpKeyHoldTime <= Data.MaxJumpKeyHoldTime);
     }
     private void LimitMoveSpeedVertical()
     {
-        if (_rigidbody.velocity.y > _data.MaxVelocity.y)
+        if (_rigidbody.velocity.y > Data.MaxVelocity.y)
         {
-            SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, _data.MaxVelocity.y));
+            SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, Data.MaxVelocity.y));
         }
 
-        if (_rigidbody.velocity.y < -_data.MaxVelocity.y)
+        if (_rigidbody.velocity.y < -Data.MaxVelocity.y)
         {
-            SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, - _data.MaxVelocity.y));
+            SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, - Data.MaxVelocity.y));
         }
     }
     
@@ -596,7 +596,7 @@ public class PlayerController : MonoBehaviour
     
     private bool IsAtJumpPeak()
     {
-        return Mathf.Abs(_rigidbody.velocity.y) < _data.JumpPeakRange;
+        return Mathf.Abs(_rigidbody.velocity.y) < Data.JumpPeakRange;
     }
 
     private bool IsFalling()

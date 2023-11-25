@@ -28,6 +28,7 @@ MonoBehaviour:
   JumpCooldown: 0.75
   LandedMovementBlockTime: 0.8
   PickUpMovementBlockTime: 0.5
+  ThrowForce: 100
   StandardGravity: 1
   FallingGravity: 8.3
   Keybindings:
