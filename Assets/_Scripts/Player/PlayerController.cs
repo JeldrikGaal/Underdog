@@ -72,7 +72,12 @@ public class PlayerController : MonoBehaviour
     public static event Action StartedJump;
     public static event Action EndedJump;
     
+    // Sound Controller
+    private static PlayerSoundController soundController;
+
+    
     #region Unity Events
+    
     void Update()
     {
         UpdateMovementBlock();
@@ -121,6 +126,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         SetupKeyBindings(_currentKeyBindingId);
+        soundController = this.GetComponent<PlayerSoundController>();
     }
 
     private void Awake()
@@ -592,6 +598,7 @@ public class PlayerController : MonoBehaviour
         if (_rigidbody.velocity.y < -Data.MaxVelocity.y)
         {
             SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, - Data.MaxVelocity.y));
+            soundController.LandSound();
         }
     }
     

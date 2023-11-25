@@ -8,6 +8,8 @@ public class PlayerSoundController : MonoBehaviour
 {
 
     public List<AudioClip> footsteps;
+    public List<AudioClip> jumpClips;
+    public List<AudioClip> landClips;
     private AudioSource _audioSource;
     
     // Start is called before the first frame update
@@ -20,12 +22,16 @@ public class PlayerSoundController : MonoBehaviour
     {
         PlayerController.Moving += PlayFootStep;
         PlayerController.NotMoving += StopAudio;
+        /*PlayerController.StartedJump += JumpSound;
+        PlayerController.EndedJump += LandSound;*/
     }
     
     private void OnDisable()
     {
         PlayerController.Moving -= PlayFootStep;
         PlayerController.NotMoving -= StopAudio;
+        /*PlayerController.StartedJump -= JumpSound;
+        PlayerController.EndedJump -= LandSound;*/
     }
 
     void PlayFootStep()
@@ -40,5 +46,18 @@ public class PlayerSoundController : MonoBehaviour
     void StopAudio()
     {
         _audioSource.Stop();
+    }
+
+    public void JumpSound()
+    {
+        _audioSource.clip = jumpClips[UnityEngine.Random.Range(0, jumpClips.Count - 1)];
+        _audioSource.Play(0);
+    }
+    
+    public void LandSound()
+    {
+        if (landClips.Count == 1) _audioSource.clip = landClips[0];
+        else _audioSource.clip = landClips[UnityEngine.Random.Range(0, landClips.Count - 1)];
+        _audioSource.Play(0);
     }
 }

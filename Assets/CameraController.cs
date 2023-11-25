@@ -30,6 +30,8 @@ public class CameraController : MonoBehaviour
     public float x1Limit3 = 0;
     public float x2Limit3 = 0;
 
+    public bool cameraLocked = false;
+
     private void Start()
     {
         lastX = target.position.x;
@@ -39,15 +41,16 @@ public class CameraController : MonoBehaviour
     {
         if (xLimit1 || xLimit2 || xLimit3)
         {
-            if (xLimit1 && transform.position.x <= x1Limit1) { transform.position = new Vector3(x1Limit1,transform.position.y,transform.position.z); }
-            else if (xLimit1 && transform.position.x >= x2Limit1) { transform.position = new Vector3(x2Limit1, transform.position.y,transform.position.z); }
-            else if(xLimit2 && transform.position.x <= x1Limit2){transform.position = new Vector3(x1Limit2, transform.position.y,transform.position.z);}
-            else if(xLimit2 && transform.position.x >= x2Limit2){transform.position = new Vector3(x2Limit2, transform.position.y,transform.position.z);} 
-            else if(xLimit3 && transform.position.x <= x1Limit3){transform.position = new Vector3(x1Limit3, transform.position.y,transform.position.z);} 
-            else if(xLimit3 && transform.position.x >= x2Limit3){transform.position = new Vector3(x2Limit3, transform.position.y,transform.position.z);} 
+            if (xLimit1 && transform.position.x <= x1Limit1){cameraLocked = true; transform.position = new Vector3(x1Limit1,transform.position.y,transform.position.z); }
+            else if (xLimit1 && transform.position.x >= x2Limit1) { cameraLocked = true; transform.position = new Vector3(x2Limit1, transform.position.y,transform.position.z); }
+            else if(xLimit2 && transform.position.x <= x1Limit2){cameraLocked = true; transform.position = new Vector3(x1Limit2, transform.position.y,transform.position.z);}
+            else if(xLimit2 && transform.position.x >= x2Limit2){cameraLocked = true; transform.position = new Vector3(x2Limit2, transform.position.y,transform.position.z);} 
+            else if(xLimit3 && transform.position.x <= x1Limit3){cameraLocked = true; transform.position = new Vector3(x1Limit3, transform.position.y,transform.position.z);} 
+            else if(xLimit3 && transform.position.x >= x2Limit3){cameraLocked = true; transform.position = new Vector3(x2Limit3, transform.position.y,transform.position.z);} 
         }
         else
         {
+            cameraLocked = false;
             timer += Time.deltaTime;
             if (timer >= triggerDelay)
             {
@@ -76,11 +79,14 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = Vector3.SmoothDamp(
-            transform.position, 
-            target.position + offset, 
-            ref currentVelocity, 
-            smoothTime
-        );
+        if (!cameraLocked)
+        {
+            transform.position = Vector3.SmoothDamp(
+                transform.position,
+                target.position + offset,
+                ref currentVelocity,
+                smoothTime
+            );
+        }
     }
 }

@@ -25,6 +25,7 @@ public class PlayerAnimationController : MonoBehaviour
     private static readonly int ThrowstanceHash = Animator.StringToHash("throwstance");
     private static readonly int PropertyHash = Animator.StringToHash("throw");
 
+
     [Serializable]
     private enum MovementType
     {
@@ -34,6 +35,7 @@ public class PlayerAnimationController : MonoBehaviour
     
     private void OnEnable()
     {
+        
         PlayerController.StartedMovingRight += StartHorizontalMovement;
         PlayerController.StartedMovingRight += SetFacingRight;
         PlayerController.StartedMovingRight += FlipModelHolderRight;
@@ -131,6 +133,7 @@ public class PlayerAnimationController : MonoBehaviour
     private void StartJump()
     {
         _animator.SetTrigger(JumpHash);
+        
     }
 
     private void EndJump()
