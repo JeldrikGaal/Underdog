@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour
     public static event Action StartedMovingLeft;
     public static event Action StartedMovingRight;
 
+    public static event Action Moving;
+
     public static event Action NotMoving;
     public static event Action StartedJump;
     public static event Action EndedJump;
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
     private void SendStateEvents()
     {
         SendPlayerNotMovingEvent();
+        
     }
 
     private void OnEnable()
@@ -335,7 +338,10 @@ public class PlayerController : MonoBehaviour
        if (IsPlayerStanding())
        {
            NotMoving?.Invoke();
-           
+       }
+       else
+       {
+           Moving?.Invoke();
        }
     }
 
