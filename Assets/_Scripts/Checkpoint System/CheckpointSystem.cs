@@ -63,11 +63,9 @@ public class CheckpointSystem : MonoBehaviour
         
         for (int i = 0; i < _objectsTransforms.Count; i++)
         {
-            _objectsTransforms[i].gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            _objectsTransforms[i].gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
             _objectsTransforms[i].position = _objectsPos[i];
             _objectsTransforms[i].rotation = _objectsRot[i];
-            _objectsTransforms[i].gameObject.GetComponent<Rigidbody>().isKinematic = false;
-
         }
     }
 }
