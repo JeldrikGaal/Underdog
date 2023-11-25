@@ -53,6 +53,8 @@ public class PlayerAnimationController : MonoBehaviour
 
         PlayerObjectThrowing.StartAiming += StartAimingStance;
         PlayerObjectThrowing.ReleaseAiming += StartThrowAnim;
+        PlayerObjectThrowing.AimingRight += FlipModelHolderRight;
+        PlayerObjectThrowing.AimingLeft += FlipModelHolderLeft;
     }
 
     private void OnDisable()
@@ -73,6 +75,8 @@ public class PlayerAnimationController : MonoBehaviour
         
         PlayerObjectThrowing.StartAiming -= StartAimingStance;
         PlayerObjectThrowing.ReleaseAiming -= StartThrowAnim;
+        PlayerObjectThrowing.AimingRight -= FlipModelHolderRight;
+        PlayerObjectThrowing.AimingLeft -= FlipModelHolderLeft;
     }
 
     private void StartAimingStance()
@@ -88,12 +92,12 @@ public class PlayerAnimationController : MonoBehaviour
     
     private void FlipModelHolderRight()
     {
-        _modelHolder.transform.localScale = Vector3.one;
+        _modelHolder.transform.rotation = Quaternion.Euler(0, 90, 0);
     }
 
     private void FlipModelHolderLeft()
     {
-        _modelHolder.transform.localScale = new Vector3(1, 1, -1);
+        _modelHolder.transform.rotation = Quaternion.Euler(0, -90, 0);
     }
     
     private void SetFacingRight()
