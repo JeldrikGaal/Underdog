@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 [RequireComponent(typeof(PlayerController))]
 public class PlayerObjectThrowing : MonoBehaviour
@@ -14,9 +15,13 @@ public class PlayerObjectThrowing : MonoBehaviour
     private bool _aiming;
 
     [SerializeField] private Transform _throwingHandTransform;
+    [SerializeField] private Transform _aimingRigTransform;
+    [SerializeField] private Rig _aimingRig;
     
     public static event Action StartAiming;
     public static event Action ReleaseAiming;
+    public static event Action AimingRight;
+    public static event Action AimingLeft;
     
     private void Start()
     {
@@ -56,17 +61,35 @@ public class PlayerObjectThrowing : MonoBehaviour
     private void Aim()
     {
         // TODO: wait for kurti schmurti hurti to implement rig for aiming and then put the logic here
+        _aimingRigTransform.transform.position = GetThrowDirection() * 5f;
+        Debug.DrawLine(_throwingHandTransform.position, _aimingRigTransform.transform.position);
+        SendAimDirectionEvents();
+
+    }
+
+    private void SendAimDirectionEvents()
+    {
+        if (_aimingRigTransform.transform.position.x > _throwingHandTransform.position.x)
+        {
+            AimingRight?.Invoke();
+        }
+        else
+        {
+            AimingLeft?.Invoke();
+        }
     }
     
     private void BeginAiming()
     {
         StartAiming?.Invoke();
+        _aimingRig.weight = 1;
         _aiming = true;
     }
 
     private void EndAiming()
     {
         ReleaseAiming?.Invoke();
+        _aimingRig.weight = 0;
         TryThrow();
         _aiming = false;
     }
@@ -136,17 +159,17 @@ public class PlayerObjectThrowing : MonoBehaviour
 
     private Vector3 GetMousePos()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = _playerCamera.nearClipPlane;
+        float playerAndCamPosDiffZ = transform.position.z - _playerCamera.transform.position.z;
+        Vector3 mousePos = _playerCamera.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * playerAndCamPosDiffZ);
         return mousePos;
     }
     
     private Vector3 GetThrowDirection()
     {
-        Vector3 direction = (_throwingHandTransform.position - _playerCamera.ScreenToWorldPoint(GetMousePos()))
+        
+        Vector3 direction = ( GetMousePos() - _throwingHandTransform.position)
             .normalized;
-        direction = new Vector3(direction.x * -1, direction.y, 0);
+        direction = new Vector3(direction.x, direction.y, 0);
         return direction;
     }
-    
 }
