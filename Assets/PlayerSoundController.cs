@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,32 @@ public class PlayerSoundController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _audioSource = this.GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        PlayerController.Moving += PlayFootStep;
+        PlayerController.NotMoving += StopAudio;
+    }
+    
+    private void OnDisable()
+    {
+        PlayerController.Moving -= PlayFootStep;
+        PlayerController.NotMoving -= StopAudio;
     }
 
     void PlayFootStep()
     {
-        _audioSource.clip = footsteps[UnityEngine.Random.Range(0, footsteps.Count - 1)];
-        _audioSource.Play(0);
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.clip = footsteps[UnityEngine.Random.Range(0, footsteps.Count - 1)];
+            _audioSource.Play(0);
+        }
+    }
+    
+    void StopAudio()
+    {
+        _audioSource.Stop();
     }
 }
