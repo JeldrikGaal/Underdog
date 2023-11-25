@@ -21,6 +21,9 @@ public class PLAYERDATA : ScriptableObject
     public float MinJumpGravityModifier;
     public float JumpBufferTime;
     public float KoyoteTime;
+    public float JumpCooldown;
+    public float LandedMovementBlockTime;
+    public float PickUpMovementBlockTime;
 
     [Header("Gravity")]
     public float StandardGravity;

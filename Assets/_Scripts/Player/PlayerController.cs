@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private KeyCode _moveKeyLeft;
     private KeyCode _moveKeyRight;
     private KeyCode _moveKeyJump;
+    private KeyCode _interactKey;
     
     public static PlayerController Instance;
 
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
     private Rigidbody _rigidbody;
     [SerializeField] private GroundedChecker _groundedChecker;
+    [SerializeField] private PlayerInteraction _playerInteraction; 
     [SerializeField] private PLAYERDATA _data;
     [SerializeField] private Transform _jumpEffectPosition;
     [SerializeField] private ParticleSystem _walkingParticleObject1;
@@ -26,11 +28,14 @@ public class PlayerController : MonoBehaviour
     private float _jumpKeyPressedTime;
     private float _jumpKeyReleasedTime;
     private float _jumpKeyHoldTime;
+    private float _lastJumpTime;
     private float _landedOnGroundTime;
     private float _leftGroundTime;
     private float _lastWallJumpTime;
     private float _wallHangTime;
     private float _lastDashTime;
+
+    private float _remainingMovementBlockTime;
     
     private bool _didDoubleJump;
 
@@ -54,32 +59,60 @@ public class PlayerController : MonoBehaviour
 
     private int _currentKeyBindingId;
     private PlayerState _playerState;
+
+    private bool _movementBlock;
     
-    
+    // Movement events
+    public static event Action StartedMovingLeft;
+    public static event Action StartedMovingRight;
+
+    public static event Action NotMoving;
+    public static event Action StartedJump;
+    public static event Action EndedJump;
     
     #region Unity Events
     void Update()
     {
-        Move();
+        UpdateMovementBlock();
+        
+        TryMove();
         SetPlayerState();
         VisualEffects();
 
+        SendStateEvents();
+
+        InteractionInput();
+        
         SwitchControlInput();
     }
+
+    private void SendStateEvents()
+    {
+        SendPlayerNotMovingEvent();
+    }
+
     private void OnEnable()
     {
         GroundedChecker.OnLandedOnGround += JumpBuffering;
         GroundedChecker.OnLandedOnGround += SetLandOnGroundTime;
+        GroundedChecker.OnLandedOnGround += SendLandedOnGroundEvent;
         GroundedChecker.OnLandedOnGround += SetPlayerStateWalking;
+        GroundedChecker.OnLandedOnGround += SetLandedMovementBlockTime;
         GroundedChecker.OnLeftGround     += SetLeftGroundTime;
+
+        BaseInteractable.PlayerInteractedWith += SetPickupMovementBlockTime;
     }
 
     private void OnDisable()
     {
         GroundedChecker.OnLandedOnGround -= JumpBuffering;
         GroundedChecker.OnLandedOnGround -= SetLandOnGroundTime;
+        GroundedChecker.OnLandedOnGround -= SendLandedOnGroundEvent;
         GroundedChecker.OnLandedOnGround -= SetPlayerStateWalking;
+        GroundedChecker.OnLandedOnGround -= SetLandedMovementBlockTime;
         GroundedChecker.OnLeftGround     -= SetLeftGroundTime;
+        
+        BaseInteractable.PlayerInteractedWith -= SetPickupMovementBlockTime;
     }
 
     private void Start()
@@ -109,6 +142,8 @@ public class PlayerController : MonoBehaviour
         _moveKeyJump = _data.Keybindings[id].MoveKeyJump;
         _moveKeyLeft = _data.Keybindings[id].MoveKeyLeft;
         _moveKeyRight = _data.Keybindings[id].MoveKeyRight;
+        _interactKey = _data.Keybindings[id].InteractKey;
+        
     }
 
     private void SwitchControlInput()
@@ -144,6 +179,18 @@ public class PlayerController : MonoBehaviour
         _landedOnGroundTime = Time.time;
     }
 
+    private void SetLandedMovementBlockTime()
+    {
+        SetMovementBlockForTime(_data.LandedMovementBlockTime);
+    }
+    
+    
+
+    private void SendLandedOnGroundEvent()
+    {
+        EndedJump?.Invoke();
+    }
+
     private void SetLeftGroundTime()
     {
         _leftGroundTime = Time.time;
@@ -168,11 +215,45 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     
-    private void Move()
+    private void TryMove()
     {
+        if (!IsMoveAllowed())
+        {
+            return;
+        }
+        
         HorizontalMovement();
         JumpMovement();
     }
+
+    private bool IsMoveAllowed()
+    {
+        return !_movementBlock;
+    }
+
+    private void UpdateMovementBlock()
+    {
+        if (_movementBlock)
+        {
+            _remainingMovementBlockTime -= Time.deltaTime;
+            if (_remainingMovementBlockTime <= 0)
+            {
+                _movementBlock = false;
+            }
+        }
+    }
+
+    private void SetMovementBlockForTime(float time)
+    {
+        _remainingMovementBlockTime = time;
+        _movementBlock = true;
+    }
+
+    public void SetPickupMovementBlockTime(BaseInteractable interactable)
+    {
+        SetMovementBlockForTime(_data.PickUpMovementBlockTime);
+    }
+    
     
     private void BlockVelocityChange()
     {
@@ -217,70 +298,50 @@ public class PlayerController : MonoBehaviour
     private void HorizontalMovement()
     {
         MovementInputHorizontal();
-        DeceleratePlayerHorizontal();
         LimitMoveSpeedHorizontal();
-        CheckRotation();
     }
 
     private Vector2 GetMousePosition()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
-    
-    private void CheckRotation()
-    {
-        if (GetMousePosition().x < transform.position.x)
-        {
-            //Facing left
-            FlipPlayer(false);
-        }
-        else
-        {
-            //Facing right
-            FlipPlayer(true);
-        }
-
-        if (Mathf.Abs(_rigidbody.velocity.x) >= 0.1f)
-        {
-            _isMoving = true;
-        }
-        else
-        {
-            _isMoving = false;
-        }
-    }
 
     public bool GetFacingDirection()
     {
         return _isFacingRight;
     }
-
-    private void FlipPlayer(bool isFacingRight)
-    {
-        _isFacingRight = isFacingRight;
-        
-        //Flip player
-        Vector3 scale = transform.localScale;
-        scale.x = isFacingRight ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
-        transform.localScale = scale;
-    }
-
     private void MovementInputHorizontal()
     {
         if (IsMoveKeyLeftPressed())
         {
             MoveLeft();
             SetLastMoveDirectionLeft();
+            StartedMovingLeft?.Invoke();
         }
         else if (IsMoveKeyRightPressed())
         {
             MoveRight();
             SetLastMoveDirectionRight();
+            StartedMovingRight?.Invoke();
         }
         else
         {
             DeceleratePlayerHorizontal();
         }
+    }
+
+    private void SendPlayerNotMovingEvent()
+    {
+       if (IsPlayerStanding())
+       {
+           NotMoving?.Invoke();
+           
+       }
+    }
+
+    private bool IsPlayerStanding()
+    {
+        return Mathf.Abs(_rigidbody.velocity.x) <= 0.1f;
     }
 
     private void SetLastMoveDirectionRight()
@@ -396,7 +457,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(_moveKeyJump))
         {
-            Jump();
+            TryJump();
             SaveJumpKeyPressedTime();
         }
 
@@ -428,28 +489,32 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    private void Jump()
+    private void TryJump()
     {
         if (IsJumpAllowed())
         {
             SetJumpVelocity();
             SetAlreadyJumpedThisFrame();
+            SetJumpTime();
+            StartedJump?.Invoke();
         }
+    }
+
+    private void SetJumpTime()
+    {
+        _lastJumpTime = Time.time;
     }
 
     private void SetJumpVelocity()
     {
-        Debug.Log("NORMAL JUMP");
         SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, _data.JumpForce));
     }
 
     private void JumpBuffering()
     {
-        Debug.Log("buffering1");
         if (_playerState == PlayerState.Jumping && JumpBufferingValid())
         {
-            Jump();
-            Debug.Log("buffering2");
+            TryJump();
         }
     }
 
@@ -465,7 +530,12 @@ public class PlayerController : MonoBehaviour
 
     private bool IsJumpAllowed()
     {
-        return ( IsGrounded() || IsKoyoteTimingAllowed()) && !DidPlayerAlreadyJumpThisFrame();
+        return ( IsGrounded() || IsKoyoteTimingAllowed()) && !DidPlayerAlreadyJumpThisFrame() && IsJumpCooldownReady();
+    }
+
+    private bool IsJumpCooldownReady()
+    {
+        return Time.time - _lastJumpTime > _data.JumpCooldown;
     }
 
     private bool IsKoyoteTimingAllowed()
@@ -642,4 +712,22 @@ public class PlayerController : MonoBehaviour
         _alreadyJumpedThisFrame = false;
     }
     #endregion
+
+    #region Interaction
+
+    private bool IsInteractKeyPressed()
+    {
+        return Input.GetKeyDown(_interactKey);
+    }
+    
+    private void InteractionInput()
+    {
+        if (IsInteractKeyPressed())
+        {
+            _playerInteraction.TryInteract();
+        }
+    }
+
+    #endregion
+   
 }
