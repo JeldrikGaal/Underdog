@@ -732,6 +732,7 @@ MonoBehaviour:
   xLimit3: 0
   x1Limit3: 21.64
   x2Limit3: 23.02
+  cameraLocked: 0
 --- !u!114 &330585549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3363,6 +3364,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0cbd1b953b705954f93aabbc54e44bd4, type: 3}
   - {fileID: 8300000, guid: d6a68bbd4f2cb264e9b29634a4c017fc, type: 3}
   - {fileID: 8300000, guid: 38d382e37d717e04495a2f557a1efba5, type: 3}
+  jumpClips:
+  - {fileID: 8300000, guid: d43c9d2cdd17bb747ac6b3f6d6d26e4c, type: 3}
+  - {fileID: 8300000, guid: a100941dca1384f4f9a452153174f61f, type: 3}
+  landClips:
+  - {fileID: 8300000, guid: 83e3eccc69a205f4daa609a268550c6a, type: 3}
 --- !u!82 &1311097955
 AudioSource:
   m_ObjectHideFlags: 0
