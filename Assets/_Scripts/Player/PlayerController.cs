@@ -57,7 +57,13 @@ public class PlayerController : MonoBehaviour
     private int _currentKeyBindingId;
     private PlayerState _playerState;
     
-    
+    // Movement events
+    public static event Action StartedMovingLeft;
+    public static event Action StartedMovingRight;
+
+    public static event Action NotMoving;
+    public static event Action StartedJump;
+    public static event Action EndedJump;
     
     #region Unity Events
     void Update()
@@ -66,14 +72,23 @@ public class PlayerController : MonoBehaviour
         SetPlayerState();
         VisualEffects();
 
+        SendStateEvents();
+
         InteractionInput();
         
         SwitchControlInput();
     }
+
+    private void SendStateEvents()
+    {
+        SendPlayerNotMovingEvent();
+    }
+
     private void OnEnable()
     {
         GroundedChecker.OnLandedOnGround += JumpBuffering;
         GroundedChecker.OnLandedOnGround += SetLandOnGroundTime;
+        GroundedChecker.OnLandedOnGround += SendLandedOnGroundEvent;
         GroundedChecker.OnLandedOnGround += SetPlayerStateWalking;
         GroundedChecker.OnLeftGround     += SetLeftGroundTime;
     }
@@ -82,6 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         GroundedChecker.OnLandedOnGround -= JumpBuffering;
         GroundedChecker.OnLandedOnGround -= SetLandOnGroundTime;
+        GroundedChecker.OnLandedOnGround -= SendLandedOnGroundEvent;
         GroundedChecker.OnLandedOnGround -= SetPlayerStateWalking;
         GroundedChecker.OnLeftGround     -= SetLeftGroundTime;
     }
@@ -148,6 +164,11 @@ public class PlayerController : MonoBehaviour
     private void SetLandOnGroundTime()
     {
         _landedOnGroundTime = Time.time;
+    }
+
+    private void SendLandedOnGroundEvent()
+    {
+        EndedJump?.Invoke();
     }
 
     private void SetLeftGroundTime()
@@ -223,70 +244,50 @@ public class PlayerController : MonoBehaviour
     private void HorizontalMovement()
     {
         MovementInputHorizontal();
-        DeceleratePlayerHorizontal();
         LimitMoveSpeedHorizontal();
-        CheckRotation();
     }
 
     private Vector2 GetMousePosition()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
-    
-    private void CheckRotation()
-    {
-        if (GetMousePosition().x < transform.position.x)
-        {
-            //Facing left
-            FlipPlayer(false);
-        }
-        else
-        {
-            //Facing right
-            FlipPlayer(true);
-        }
-
-        if (Mathf.Abs(_rigidbody.velocity.x) >= 0.1f)
-        {
-            _isMoving = true;
-        }
-        else
-        {
-            _isMoving = false;
-        }
-    }
 
     public bool GetFacingDirection()
     {
         return _isFacingRight;
     }
-
-    private void FlipPlayer(bool isFacingRight)
-    {
-        _isFacingRight = isFacingRight;
-        
-        //Flip player
-        Vector3 scale = transform.localScale;
-        scale.x = isFacingRight ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
-        transform.localScale = scale;
-    }
-
     private void MovementInputHorizontal()
     {
         if (IsMoveKeyLeftPressed())
         {
             MoveLeft();
             SetLastMoveDirectionLeft();
+            StartedMovingLeft?.Invoke();
         }
         else if (IsMoveKeyRightPressed())
         {
             MoveRight();
             SetLastMoveDirectionRight();
+            StartedMovingRight?.Invoke();
         }
         else
         {
             DeceleratePlayerHorizontal();
         }
+    }
+
+    private void SendPlayerNotMovingEvent()
+    {
+       if (IsPlayerStanding())
+       {
+           NotMoving?.Invoke();
+           
+       }
+    }
+
+    private bool IsPlayerStanding()
+    {
+        return Mathf.Abs(_rigidbody.velocity.x) <= 0.1f;
     }
 
     private void SetLastMoveDirectionRight()
@@ -402,7 +403,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(_moveKeyJump))
         {
-            Jump();
+            TryJump();
             SaveJumpKeyPressedTime();
         }
 
@@ -434,28 +435,26 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    private void Jump()
+    private void TryJump()
     {
         if (IsJumpAllowed())
         {
             SetJumpVelocity();
             SetAlreadyJumpedThisFrame();
+            StartedJump?.Invoke();
         }
     }
 
     private void SetJumpVelocity()
     {
-        Debug.Log("NORMAL JUMP");
         SetPlayerVelocity(new Vector2(_rigidbody.velocity.x, _data.JumpForce));
     }
 
     private void JumpBuffering()
     {
-        Debug.Log("buffering1");
         if (_playerState == PlayerState.Jumping && JumpBufferingValid())
         {
-            Jump();
-            Debug.Log("buffering2");
+            TryJump();
         }
     }
 

@@ -8,13 +8,13 @@ public class PlayerInteraction : MonoBehaviour
    private void OnEnable()
    {
       BaseInteractable.PlayerEnteredRangeToInteract += SetCurrentInteractable;
-      BaseInteractable.PlayerLeftRangeToInteract    += SetCurrentInteractable;
+      BaseInteractable.PlayerLeftRangeToInteract    += ResetCurrentInteractable;
    }
 
    private void OnDisable()
    {
       BaseInteractable.PlayerEnteredRangeToInteract -= SetCurrentInteractable;
-      BaseInteractable.PlayerLeftRangeToInteract    -= SetCurrentInteractable;
+      BaseInteractable.PlayerLeftRangeToInteract    -= ResetCurrentInteractable;
    }
 
    public void TryInteract()
@@ -51,6 +51,11 @@ public class PlayerInteraction : MonoBehaviour
    private void SetCurrentInteractable(BaseInteractable interactable)
    {
       _currentInteractable = interactable;
+   }
+
+   private void ResetCurrentInteractable(BaseInteractable interactable = null)
+   {
+      _currentInteractable = null;
    }
 
 }
