@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - LevelManager
+  - toy
   layers:
   - Default
   - TransparentFX
