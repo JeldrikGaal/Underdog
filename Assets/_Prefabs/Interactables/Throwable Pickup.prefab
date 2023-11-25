@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8796287981879158559}
   - component: {fileID: 2375667026199686778}
   m_Layer: 0
-  m_Name: Collider
+  m_Name: pickupCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,6 +113,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1194925323475449713, guid: 522afdeb47dd644439a4c49125baf9ef,
         type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 2375667026199686778}
+    - target: {fileID: 1194925323475449713, guid: 522afdeb47dd644439a4c49125baf9ef,
+        type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 1914436883663197528}
+    - target: {fileID: 1194925323475449713, guid: 522afdeb47dd644439a4c49125baf9ef,
+        type: 3}
       propertyPath: _throwable
       value: 1
       objectReference: {fileID: 0}
@@ -124,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 8905123732463558096, guid: 522afdeb47dd644439a4c49125baf9ef,
         type: 3}
       propertyPath: m_Name
-      value: Pickup Variant
+      value: Throwable Pickup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

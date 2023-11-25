@@ -10,11 +10,7 @@ public class WorldText : MonoBehaviour
    [SerializeField] private string _textToDisplay;
    [SerializeField] private float _timeToDisplay;
    [SerializeField] private float _spaceWaitTime;
-
-   private void Start()
-   {
-      ShowTextByLetter();
-   }
+   
 
    public void ShowTextByLetter()
    {
@@ -27,6 +23,11 @@ public class WorldText : MonoBehaviour
       SetTimeToDisplay(newTime);
    }
 
+   public void ClearText()
+   {
+      _textField.text = "";
+   }
+   
    private void SetTextToDisplay(string newText)
    {
       _textToDisplay = newText;
@@ -44,6 +45,7 @@ public class WorldText : MonoBehaviour
    
    private IEnumerator DisplayTextLetterForLetter(float time, string text)
    {
+      _textField.text = "";
       float timestep = time / text.Length;
       foreach (var character in text)
       {

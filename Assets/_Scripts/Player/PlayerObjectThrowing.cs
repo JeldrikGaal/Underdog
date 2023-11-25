@@ -11,7 +11,12 @@ public class PlayerObjectThrowing : MonoBehaviour
 
     private PickupInteractable _currentlyHoldingObject;
 
+    private bool _aiming;
+
     [SerializeField] private Transform _throwingHandTransform;
+    
+    public static event Action StartAiming;
+    public static event Action ReleaseAiming;
     
     private void Start()
     {
@@ -21,10 +26,49 @@ public class PlayerObjectThrowing : MonoBehaviour
     
     private void Update()
     {
+       AimInput();
+    }
+
+    private void AimInput()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            TryThrow();
+            if (IsThrowAllowed())
+            {
+                BeginAiming();
+            }
+            
         }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (IsThrowAllowed())
+            {
+                EndAiming();
+            }
+        }
+
+        if (_aiming)
+        {
+            Aim();
+        }
+    }
+
+    private void Aim()
+    {
+        // TODO: wait for kurti schmurti hurti to implement rig for aiming and then put the logic here
+    }
+    
+    private void BeginAiming()
+    {
+        StartAiming?.Invoke();
+        _aiming = true;
+    }
+
+    private void EndAiming()
+    {
+        ReleaseAiming?.Invoke();
+        TryThrow();
+        _aiming = false;
     }
     
     private Camera GetCamera()
@@ -54,13 +98,7 @@ public class PlayerObjectThrowing : MonoBehaviour
     {
         SetCurrentlyHoldingObject(pickedUpInteractable);
         ParentObjectToHand(pickedUpInteractable.gameObject);
-        DisableObjectCollider(pickedUpInteractable);
-    }
-    
-    private void DisableObjectCollider(PickupInteractable pickedUpInteractable)
-    {
-        pickedUpInteractable.GetComponentInChildren<SphereCollider>().enabled = false; // TODO: not decoupled yet 
-        _currentlyHoldingObject.GetComponentInChildren<Rigidbody>().isKinematic = true;
+        pickedUpInteractable.DisablePhysics();
     }
 
     private void ParentObjectToHand(GameObject objectToParent)
@@ -89,11 +127,9 @@ public class PlayerObjectThrowing : MonoBehaviour
 
     private void Throw()
     {
-        Rigidbody throwingObjectRigidbody =_currentlyHoldingObject.GetComponent<Rigidbody>();
-        _currentlyHoldingObject.GetComponentInChildren<Rigidbody>().isKinematic = false;
-        _currentlyHoldingObject.GetComponentInChildren<SphereCollider>().enabled = true; // TODO: not decoupled yet 
+        _currentlyHoldingObject.EnablePhysics();
         _currentlyHoldingObject.transform.parent = null;
-        throwingObjectRigidbody.velocity = GetThrowDirection() * _playerdata.ThrowForce;
+        _currentlyHoldingObject.SetVelocity(GetThrowDirection() * _playerdata.ThrowForce);
         _currentlyHoldingObject = null;
         
     }

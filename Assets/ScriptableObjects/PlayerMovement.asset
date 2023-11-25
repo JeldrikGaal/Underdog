@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d15afe928a496458afb09d7f0331db, type: 3}
   m_Name: PlayerMovement
   m_EditorClassIdentifier: 
-  Acceleration: 20
+  Acceleration: 5
   Deceleration: 4.5
-  MaxVelocity: {x: 7.8, y: 20}
+  MaxVelocity: {x: 4, y: 10}
   AirBornAcceleartionModifier: 0.6
   AirBornDeceleartionModifier: 0.33
   JumpForce: 10
