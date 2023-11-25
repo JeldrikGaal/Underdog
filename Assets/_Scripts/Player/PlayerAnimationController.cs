@@ -22,6 +22,8 @@ public class PlayerAnimationController : MonoBehaviour
     
     [SerializeField] private MovementType _movementType;
     private static readonly int PickupHash = Animator.StringToHash("pickup");
+    private static readonly int ThrowstanceHash = Animator.StringToHash("throwstance");
+    private static readonly int PropertyHash = Animator.StringToHash("throw");
 
     [Serializable]
     private enum MovementType
@@ -46,6 +48,9 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerController.EndedJump += EndJump;
 
         PickupInteractable.PickupCollected += StartPickupInteractable;
+
+        PlayerObjectThrowing.StartAiming += StartAimingStance;
+        PlayerObjectThrowing.ReleaseAiming += StartThrowAnim;
     }
 
     private void OnDisable()
@@ -56,11 +61,29 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerController.StartedMovingLeft -= StartHorizontalMovement;
         PlayerController.StartedMovingRight -= SetFacingLeft;
         PlayerController.StartedMovingLeft -= FlipModelHolderLeft;
+        
         PlayerController.NotMoving -= StopHorizontalMovement;
+        
         PlayerController.StartedJump -= StartJump; 
         PlayerController.EndedJump -= EndJump;
+        
+        PickupInteractable.PickupCollected -= StartPickupInteractable;
+        
+        PlayerObjectThrowing.StartAiming -= StartAimingStance;
+        PlayerObjectThrowing.ReleaseAiming -= StartThrowAnim;
     }
 
+    private void StartAimingStance()
+    {
+        _animator.SetBool(ThrowstanceHash, true);
+    }
+
+    private void StartThrowAnim()
+    {
+        _animator.SetBool(ThrowstanceHash, false);
+        _animator.SetTrigger(PropertyHash);
+    }
+    
     private void FlipModelHolderRight()
     {
         _modelHolder.transform.localScale = Vector3.one;
