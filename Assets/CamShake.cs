@@ -35,4 +35,20 @@ public class CamShake : MonoBehaviour
 
         transform.position = startPosition;
     }
+    
+    public IEnumerator CustomShake(AnimationCurve curve)
+        {
+            Vector3 startPosition = transform.position;
+            float elapsedTime = 0f;
+    
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float strength = curve.Evaluate(elapsedTime / duration);
+                transform.position = startPosition + UnityEngine.Random.insideUnitSphere * strength;
+                yield return null;
+            }
+    
+            transform.position = startPosition;
+        }
 }
