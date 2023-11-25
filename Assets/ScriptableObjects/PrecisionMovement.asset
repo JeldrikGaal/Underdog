@@ -18,7 +18,7 @@ MonoBehaviour:
   AirBornAcceleartionModifier: 0.6
   AirBornDeceleartionModifier: 0.33
   MaxHealth: 6
-  JumpForce: 5
+  JumpForce: 10
   JumpPeakRange: 0.1
   MaxJumpKeyHoldTime: 0.35
   JumpHoldTimeFactor: 1
