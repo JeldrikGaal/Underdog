@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private int _currentKeyBindingId;
     private PlayerState _playerState;
 
+    private bool _timedMovementBlock;
     private bool _movementBlock;
     
     // Movement events
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        UpdateMovementBlock();
+        UpdateTimedMovementBlock();
         
         TryMove();
         SetPlayerState();
@@ -108,7 +109,10 @@ public class PlayerController : MonoBehaviour
         GroundedChecker.OnLandedOnGround += SetLandedMovementBlockTime;
         GroundedChecker.OnLeftGround     += SetLeftGroundTime;
 
-        BaseInteractable.PlayerInteractedWith += SetPickupMovementBlockTime;
+        PlayerAnimationController.PickupAnimationStarted += SetPickupMovementBlockTime;
+
+        PlayerObjectThrowing.StartAiming += BlockMovement;
+        PlayerObjectThrowing.ReleaseAiming += UnBlockMovement;
     }
 
     private void OnDisable()
@@ -120,7 +124,10 @@ public class PlayerController : MonoBehaviour
         GroundedChecker.OnLandedOnGround -= SetLandedMovementBlockTime;
         GroundedChecker.OnLeftGround     -= SetLeftGroundTime;
         
-        BaseInteractable.PlayerInteractedWith -= SetPickupMovementBlockTime;
+        PlayerAnimationController.PickupAnimationStarted -= SetPickupMovementBlockTime;
+        
+        PlayerObjectThrowing.StartAiming -= BlockMovement;
+        PlayerObjectThrowing.ReleaseAiming -= UnBlockMovement;
     }
 
     private void Start()
@@ -237,17 +244,27 @@ public class PlayerController : MonoBehaviour
 
     private bool IsMoveAllowed()
     {
-        return !_movementBlock;
+        return !_timedMovementBlock && !_movementBlock;
     }
 
-    private void UpdateMovementBlock()
+    public void BlockMovement()
     {
-        if (_movementBlock)
+        _movementBlock = true;
+    }
+
+    public void UnBlockMovement()
+    {
+        _movementBlock = false;
+    }
+
+    private void UpdateTimedMovementBlock()
+    {
+        if (_timedMovementBlock)
         {
             _remainingMovementBlockTime -= Time.deltaTime;
             if (_remainingMovementBlockTime <= 0)
             {
-                _movementBlock = false;
+                _timedMovementBlock = false;
             }
         }
     }
@@ -255,10 +272,10 @@ public class PlayerController : MonoBehaviour
     private void SetMovementBlockForTime(float time)
     {
         _remainingMovementBlockTime = time;
-        _movementBlock = true;
+        _timedMovementBlock = true;
     }
 
-    public void SetPickupMovementBlockTime(BaseInteractable interactable)
+    private void SetPickupMovementBlockTime()
     {
         SetMovementBlockForTime(Data.PickUpMovementBlockTime);
     }
