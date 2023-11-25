@@ -21,9 +21,10 @@ public class WorldText : MonoBehaviour
       StartCoroutine(DisplayTextLetterForLetter(_timeToDisplay, _textToDisplay));
    }
 
-   public void SetTimeAndText()
+   public void SetTextAndTime(string newText, float newTime)
    {
-      
+      SetTextToDisplay(newText);
+      SetTimeToDisplay(newTime);
    }
 
    private void SetTextToDisplay(string newText)
