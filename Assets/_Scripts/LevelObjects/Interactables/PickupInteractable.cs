@@ -12,6 +12,6 @@ public class PickupInteractable : BaseInteractable
     {
         PickupCollected?.Invoke(this);
         InvokePlayerLeftRange();
-        Destroy(gameObject, 0.25f);
+        Destroy(gameObject, 0.5f);
     }
 }

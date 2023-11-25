@@ -6,6 +6,7 @@ public class BaseInteractable : MonoBehaviour
 {
     public static event Action<BaseInteractable> PlayerEnteredRangeToInteract;
     public static event Action<BaseInteractable> PlayerLeftRangeToInteract;
+    public static event Action<BaseInteractable> PlayerInteractedWith;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,7 +26,9 @@ public class BaseInteractable : MonoBehaviour
 
     public virtual void Interact()
     {
+        PlayerInteractedWith?.Invoke(this);
         Debug.Log("I just got interacted with and my name is " + gameObject.name + "!");
+        
     }
 
     protected void InvokePlayerEnteredRange()

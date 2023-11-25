@@ -28,11 +28,14 @@ public class PlayerController : MonoBehaviour
     private float _jumpKeyPressedTime;
     private float _jumpKeyReleasedTime;
     private float _jumpKeyHoldTime;
+    private float _lastJumpTime;
     private float _landedOnGroundTime;
     private float _leftGroundTime;
     private float _lastWallJumpTime;
     private float _wallHangTime;
     private float _lastDashTime;
+
+    private float _remainingMovementBlockTime;
     
     private bool _didDoubleJump;
 
@@ -56,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
     private int _currentKeyBindingId;
     private PlayerState _playerState;
+
+    private bool _movementBlock;
     
     // Movement events
     public static event Action StartedMovingLeft;
@@ -68,7 +73,9 @@ public class PlayerController : MonoBehaviour
     #region Unity Events
     void Update()
     {
-        Move();
+        UpdateMovementBlock();
+        
+        TryMove();
         SetPlayerState();
         VisualEffects();
 
@@ -90,7 +97,10 @@ public class PlayerController : MonoBehaviour
         GroundedChecker.OnLandedOnGround += SetLandOnGroundTime;
         GroundedChecker.OnLandedOnGround += SendLandedOnGroundEvent;
         GroundedChecker.OnLandedOnGround += SetPlayerStateWalking;
+        GroundedChecker.OnLandedOnGround += SetLandedMovementBlockTime;
         GroundedChecker.OnLeftGround     += SetLeftGroundTime;
+
+        BaseInteractable.PlayerInteractedWith += SetPickupMovementBlockTime;
     }
 
     private void OnDisable()
@@ -99,7 +109,10 @@ public class PlayerController : MonoBehaviour
         GroundedChecker.OnLandedOnGround -= SetLandOnGroundTime;
         GroundedChecker.OnLandedOnGround -= SendLandedOnGroundEvent;
         GroundedChecker.OnLandedOnGround -= SetPlayerStateWalking;
+        GroundedChecker.OnLandedOnGround -= SetLandedMovementBlockTime;
         GroundedChecker.OnLeftGround     -= SetLeftGroundTime;
+        
+        BaseInteractable.PlayerInteractedWith -= SetPickupMovementBlockTime;
     }
 
     private void Start()
@@ -166,6 +179,13 @@ public class PlayerController : MonoBehaviour
         _landedOnGroundTime = Time.time;
     }
 
+    private void SetLandedMovementBlockTime()
+    {
+        SetMovementBlockForTime(_data.LandedMovementBlockTime);
+    }
+    
+    
+
     private void SendLandedOnGroundEvent()
     {
         EndedJump?.Invoke();
@@ -195,11 +215,45 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     
-    private void Move()
+    private void TryMove()
     {
+        if (!IsMoveAllowed())
+        {
+            return;
+        }
+        
         HorizontalMovement();
         JumpMovement();
     }
+
+    private bool IsMoveAllowed()
+    {
+        return !_movementBlock;
+    }
+
+    private void UpdateMovementBlock()
+    {
+        if (_movementBlock)
+        {
+            _remainingMovementBlockTime -= Time.deltaTime;
+            if (_remainingMovementBlockTime <= 0)
+            {
+                _movementBlock = false;
+            }
+        }
+    }
+
+    private void SetMovementBlockForTime(float time)
+    {
+        _remainingMovementBlockTime = time;
+        _movementBlock = true;
+    }
+
+    public void SetPickupMovementBlockTime(BaseInteractable interactable)
+    {
+        SetMovementBlockForTime(_data.PickUpMovementBlockTime);
+    }
+    
     
     private void BlockVelocityChange()
     {
@@ -441,8 +495,14 @@ public class PlayerController : MonoBehaviour
         {
             SetJumpVelocity();
             SetAlreadyJumpedThisFrame();
+            SetJumpTime();
             StartedJump?.Invoke();
         }
+    }
+
+    private void SetJumpTime()
+    {
+        _lastJumpTime = Time.time;
     }
 
     private void SetJumpVelocity()
@@ -470,7 +530,12 @@ public class PlayerController : MonoBehaviour
 
     private bool IsJumpAllowed()
     {
-        return ( IsGrounded() || IsKoyoteTimingAllowed()) && !DidPlayerAlreadyJumpThisFrame();
+        return ( IsGrounded() || IsKoyoteTimingAllowed()) && !DidPlayerAlreadyJumpThisFrame() && IsJumpCooldownReady();
+    }
+
+    private bool IsJumpCooldownReady()
+    {
+        return Time.time - _lastJumpTime > _data.JumpCooldown;
     }
 
     private bool IsKoyoteTimingAllowed()

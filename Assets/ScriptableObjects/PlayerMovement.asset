@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35d15afe928a496458afb09d7f0331db, type: 3}
-  m_Name: PrecisionMovement
+  m_Name: PlayerMovement
   m_EditorClassIdentifier: 
   Acceleration: 20
   Deceleration: 4.5
   MaxVelocity: {x: 7.8, y: 20}
   AirBornAcceleartionModifier: 0.6
   AirBornDeceleartionModifier: 0.33
-  MaxHealth: 6
   JumpForce: 10
   JumpPeakRange: 0.1
   MaxJumpKeyHoldTime: 0.35
@@ -26,28 +25,11 @@ MonoBehaviour:
   MinJumpGravityModifier: 3.6
   JumpBufferTime: 0.2
   KoyoteTime: 0.25
-  HorizontalWallJumpForce: 15.65
-  VerticalWallJumpForce: 15.77
-  WallJumpCooldown: 0.125
-  WallJumpAccelMovementModifierTime: 0.1
-  WallJumpAccelerationModifier: 0
-  WallJumpDecelMovementModifierTime: 1
-  WallJumpDeceleartionModifier: 0
-  DoubleJumpForce: 100
-  MaxDoubleJumpVelocityPercentage: 1
-  MaxHangTime: 3
-  HangTimeThreshold: 0.1
-  DashPower: 52
-  DashCooldown: 0.38
-  DashDuration: 0.23
-  DashMaxSpeedFactor: 3.3
+  JumpCooldown: 0.75
+  LandedMovementBlockTime: 0.8
+  PickUpMovementBlockTime: 0.5
   StandardGravity: 1
   FallingGravity: 8.3
-  weaponSwapCooldown: 0.3
-  HealFlashColor: {r: 0, g: 0, b: 0, a: 0}
-  HealFlashDuration: 0
-  DamageFlashColor: {r: 0, g: 0, b: 0, a: 0}
-  DamageFlashDuration: 0
   Keybindings:
   - {fileID: 11400000, guid: c363227984f98674ebc8ee220147f796, type: 2}
   - {fileID: 11400000, guid: c363227984f98674ebc8ee220147f796, type: 2}
