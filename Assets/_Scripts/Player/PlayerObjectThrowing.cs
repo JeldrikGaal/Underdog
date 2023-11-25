@@ -61,7 +61,7 @@ public class PlayerObjectThrowing : MonoBehaviour
     private void Aim()
     {
         // TODO: wait for kurti schmurti hurti to implement rig for aiming and then put the logic here
-        _aimingRigTransform.transform.position = GetThrowDirection() * 5f;
+        _aimingRigTransform.transform.position = _throwingHandTransform.position + GetThrowDirection() * 5f;
         Debug.DrawLine(_throwingHandTransform.position, _aimingRigTransform.transform.position);
         SendAimDirectionEvents();
 
@@ -167,7 +167,7 @@ public class PlayerObjectThrowing : MonoBehaviour
     private Vector3 GetThrowDirection()
     {
         
-        Vector3 direction = ( GetMousePos() - _throwingHandTransform.position)
+        Vector3 direction = ( GetMousePos() - _currentlyHoldingObject.transform.position)
             .normalized;
         direction = new Vector3(direction.x, direction.y, 0);
         return direction;
