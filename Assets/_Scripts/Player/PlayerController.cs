@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private KeyCode _moveKeyLeft;
     private KeyCode _moveKeyRight;
     private KeyCode _moveKeyJump;
+    private KeyCode _interactKey;
     
     public static PlayerController Instance;
 
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
     private Rigidbody _rigidbody;
     [SerializeField] private GroundedChecker _groundedChecker;
+    [SerializeField] private PlayerInteraction _playerInteraction; 
     [SerializeField] private PLAYERDATA _data;
     [SerializeField] private Transform _jumpEffectPosition;
     [SerializeField] private ParticleSystem _walkingParticleObject1;
@@ -64,6 +66,8 @@ public class PlayerController : MonoBehaviour
         SetPlayerState();
         VisualEffects();
 
+        InteractionInput();
+        
         SwitchControlInput();
     }
     private void OnEnable()
@@ -109,6 +113,8 @@ public class PlayerController : MonoBehaviour
         _moveKeyJump = _data.Keybindings[id].MoveKeyJump;
         _moveKeyLeft = _data.Keybindings[id].MoveKeyLeft;
         _moveKeyRight = _data.Keybindings[id].MoveKeyRight;
+        _interactKey = _data.Keybindings[id].InteractKey;
+        
     }
 
     private void SwitchControlInput()
@@ -642,4 +648,22 @@ public class PlayerController : MonoBehaviour
         _alreadyJumpedThisFrame = false;
     }
     #endregion
+
+    #region Interaction
+
+    private bool IsInteractKeyPressed()
+    {
+        return Input.GetKeyDown(_interactKey);
+    }
+    
+    private void InteractionInput()
+    {
+        if (IsInteractKeyPressed())
+        {
+            _playerInteraction.TryInteract();
+        }
+    }
+
+    #endregion
+   
 }
