@@ -11,7 +11,7 @@ public class BaseInteractable : MonoBehaviour
     {
         if (UTIL.IsColliderPlayer(other))
         {
-            PlayerEnteredRangeToInteract?.Invoke(this);
+            InvokePlayerEnteredRange();
         }
     }
 
@@ -19,12 +19,22 @@ public class BaseInteractable : MonoBehaviour
     {
         if (UTIL.IsColliderPlayer(other))
         {
-            PlayerLeftRangeToInteract?.Invoke(this);
+            InvokePlayerLeftRange();
         }
     }
 
-    public void Interact()
+    public virtual void Interact()
     {
         Debug.Log("I just got interacted with and my name is " + gameObject.name + "!");
+    }
+
+    protected void InvokePlayerEnteredRange()
+    {
+        PlayerEnteredRangeToInteract?.Invoke(this);
+    }
+
+    protected void InvokePlayerLeftRange()
+    {
+        PlayerLeftRangeToInteract?.Invoke(this);
     }
 }
