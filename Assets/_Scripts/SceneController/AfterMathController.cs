@@ -67,7 +67,7 @@ public class AfterMathController : MonoBehaviour
    {
       _playerCameraController.ChangeCameraTarget(_tvCameraPosition);
       PlayerController.Instance.BlockMovement();
-      Invoke(nameof(EndAfterMathScene), 5f);
+      Invoke(nameof(EndAfterMathScene), 20f);
    }
 
    private void EndAfterMathScene()
