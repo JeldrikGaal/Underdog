@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d15afe928a496458afb09d7f0331db, type: 3}
+  m_Name: PlayerMovement TheScene
+  m_EditorClassIdentifier: 
+  Acceleration: 5
+  Deceleration: 4.5
+  MaxVelocity: {x: 4, y: 10}
+  AirBornAcceleartionModifier: 0.6
+  AirBornDeceleartionModifier: 0.33
+  JumpForce: 13
+  JumpPeakRange: 0.1
+  MaxJumpKeyHoldTime: 0.35
+  JumpHoldTimeFactor: 1
+  JumpGravityModifier: 5
+  MinJumpGravityModifier: 3.6
+  JumpBufferTime: 0.2
+  KoyoteTime: 0.25
+  JumpCooldown: 0.75
+  LandedMovementBlockTime: 0.8
+  PickUpMovementBlockTime: 1
+  ThrowForce: 10
+  StandardGravity: 1
+  FallingGravity: 8.3
+  Keybindings:
+  - {fileID: 11400000, guid: c363227984f98674ebc8ee220147f796, type: 2}
+  - {fileID: 11400000, guid: c363227984f98674ebc8ee220147f796, type: 2}

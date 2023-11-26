@@ -57,6 +57,9 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerObjectThrowing.ReleaseAiming += StartThrowAnim;
         PlayerObjectThrowing.AimingRight += FlipModelHolderRight;
         PlayerObjectThrowing.AimingLeft += FlipModelHolderLeft;
+
+        SneakArea.PlayerEnteredSneakArea += SneakPlayer;
+        SneakArea.PlayerLeftSneakArea += UnSneakPlayer;
     }
 
     private void OnDisable()
@@ -79,6 +82,9 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerObjectThrowing.ReleaseAiming -= StartThrowAnim;
         PlayerObjectThrowing.AimingRight -= FlipModelHolderRight;
         PlayerObjectThrowing.AimingLeft -= FlipModelHolderLeft;
+        
+        SneakArea.PlayerEnteredSneakArea -= SneakPlayer;
+        SneakArea.PlayerLeftSneakArea -= UnSneakPlayer;
     }
 
     private void StartAimingStance()
@@ -208,5 +214,15 @@ public class PlayerAnimationController : MonoBehaviour
     {
         _animator.SetTrigger(PickupHash);
         PickupAnimationStarted?.Invoke();
+    }
+
+    private void SneakPlayer()
+    {
+        _animator.SetFloat("sneak", 1);
+    }
+
+    private void UnSneakPlayer()
+    {
+        _animator.SetFloat("sneak", 0);
     }
 }
