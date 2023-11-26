@@ -41,7 +41,7 @@ public class LeadUpController : MonoBehaviour
         DisablePlayerControl();
         
         // Play knock sequence
-        KnockSequence();
+        Invoke(nameof(KnockSequence), 4f);
         
         // Return control to player after wait time
         Invoke(nameof(EnablePlayerControl), WaitTimeGivePlayerControl);
