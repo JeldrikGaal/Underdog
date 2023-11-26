@@ -120,11 +120,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: door2-close
-      takeName: door2_open
+      name: door2_close
+      takeName: door2_close
       internalID: -4199687879344464284
-      firstFrame: 148
-      lastFrame: 160
+      firstFrame: 0
+      lastFrame: 212
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -151,7 +151,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: -1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -206,7 +206,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: -1
     rootMotionBoneName: armature_door1
     hasTranslationDoF: 0
     hasExtraRoot: 0
