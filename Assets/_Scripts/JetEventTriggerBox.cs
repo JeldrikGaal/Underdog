@@ -56,9 +56,10 @@ public class JetEventTriggerBox : MonoBehaviour
         yield return new WaitForSeconds(delay);
         StartExplosion(explosion);
         StartCoroutine(_camShake.CustomShake(_shakeCurve));
-        
-        buildingCollapser.StartCollapseSequence();
-        
+
+        if (buildingCollapser != null)
+            buildingCollapser.StartCollapseSequence();
+
         /*if (_explosionSound != null)
         {
             _explosionSound.Play();
