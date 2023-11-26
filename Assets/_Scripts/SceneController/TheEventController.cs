@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TheEventController : MonoBehaviour
 {
@@ -30,7 +31,11 @@ public class TheEventController : MonoBehaviour
     {
         _lookingGuard2.SetActive(true);
     }
-    
+
+    public void LoadLeadUpScene()
+    {
+        SceneManager.LoadScene("LeadUp");
+    }
     
     private void ClimbAnimation()
     {

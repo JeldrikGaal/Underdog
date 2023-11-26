@@ -30,7 +30,7 @@ MonoBehaviour:
   PickUpMovementBlockTime: 1
   ThrowForce: 10
   StandardGravity: 1
-  FallingGravity: 8.3
+  FallingGravity: 3
   Keybindings:
   - {fileID: 11400000, guid: c363227984f98674ebc8ee220147f796, type: 2}
   - {fileID: 11400000, guid: c363227984f98674ebc8ee220147f796, type: 2}
