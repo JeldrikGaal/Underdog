@@ -9,7 +9,7 @@ public class SceneLoadingScreen : MonoBehaviour
 
     private bool _allowEndingScreen;
     
-    void Start()
+    void Awake()
     {
         Time.timeScale = 0;
         StartCoroutine(AllowEndingScreen());

@@ -27154,6 +27154,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.12730058
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.12730058
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.12730058
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -27165,22 +27180,22 @@ PrefabInstance:
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.24
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.85186404
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.523763
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
@@ -27190,12 +27205,12 @@ PrefabInstance:
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.5
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.75
+      value: 2.24
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
@@ -27205,17 +27220,44 @@ PrefabInstance:
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -296.83
       objectReference: {fileID: 0}
     - target: {fileID: 1253522473403934412, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1522949430363095088, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 959885495680490921, guid: 8244babc2e18e1f4a8c208a883b3b9c0,
+        type: 2}
     - target: {fileID: 1601695146878879081, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: m_Name
       value: WorldText
+      objectReference: {fileID: 0}
+    - target: {fileID: 2680256136242773805, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_text
+      value: Mr. Squarehead died - call the jets!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2680256136242773805, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 19.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2680256136242773805, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 959885495680490921, guid: 8244babc2e18e1f4a8c208a883b3b9c0,
+        type: 2}
+    - target: {fileID: 2680256136242773805, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

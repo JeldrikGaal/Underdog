@@ -14,6 +14,7 @@ public class WorldText : MonoBehaviour
    [SerializeField] private bool _looping;
    [SerializeField] private float _loopingWaitTime;
 
+   
    public void ShowTextByLetter()
    {
       StartCoroutine(DisplayTextLetterForLetter(_timeToDisplay, _textToDisplay));
