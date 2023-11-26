@@ -1257,7 +1257,7 @@ GameObject:
   - component: {fileID: 702300003}
   m_Layer: 0
   m_Name: NewsCam
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
