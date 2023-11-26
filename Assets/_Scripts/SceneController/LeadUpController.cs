@@ -28,10 +28,15 @@ public class LeadUpController : MonoBehaviour
     private const float WaitTimeAfterSecondRoomSequence = 10f;
 
     private float _enterSequenceStartTime;
+
+    private LeadUpSoundController _soundController;
    
 
     private void Start()
     {
+        // Sound Controller
+        _soundController = this.GetComponent<LeadUpSoundController>();
+        
         // Player cant move until mom is blocking the door
         DisablePlayerControl();
         
@@ -68,6 +73,7 @@ public class LeadUpController : MonoBehaviour
     // Gets called by in world trigger box
     public void EnterSequence()
     {
+        _soundController.PlayFatherAngry();
         _father.SetTrigger("enter");
         _soldier1.SetTrigger("enter");
         _ambassador.SetTrigger("enter");
@@ -86,6 +92,9 @@ public class LeadUpController : MonoBehaviour
     // Gets called by in world trigger box
     public void SecondRoomSequence()
     {
+        _soundController.PlayMotherAngry();
+        StartCoroutine(_soundController.PlaySecondRoomAudio());
+        
         _brother.SetTrigger("playerEnter");
         _door2.SetTrigger("playerEnter");
         _drawer.SetTrigger("playerEnter");

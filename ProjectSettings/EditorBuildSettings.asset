@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Kurt Setup.unity
+    path: Assets/Scenes/Archive/Kurt Setup.unity
     guid: 0c300e5e157a08a4185777f1c92d83d2
   - enabled: 0
-    path: Assets/Scenes/PlayerControllerSetup.unity
+    path: Assets/Scenes/Archive/PlayerControllerSetup.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/TheEvent 1.unity
