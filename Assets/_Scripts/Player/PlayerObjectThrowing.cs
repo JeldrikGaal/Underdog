@@ -161,6 +161,9 @@ public class PlayerObjectThrowing : MonoBehaviour
     {
         float playerAndCamPosDiffZ = transform.position.z - _playerCamera.transform.position.z;
         Vector3 mousePos = _playerCamera.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * playerAndCamPosDiffZ);
+        Debug.Log(mousePos);
+        Debug.Log(Input.mousePosition);
+        Debug.Log(playerAndCamPosDiffZ);
         return mousePos;
     }
     
