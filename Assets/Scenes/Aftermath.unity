@@ -1211,7 +1211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &464955377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3297,6 +3297,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1389717568725369318, guid: a24cd20db67f98d4b9272b1e69049b8a,
+        type: 3}
+      propertyPath: _controller
+      value: 
+      objectReference: {fileID: 464955376}
     - target: {fileID: 2303200042708798578, guid: a24cd20db67f98d4b9272b1e69049b8a,
         type: 3}
       propertyPath: m_Pivot.x

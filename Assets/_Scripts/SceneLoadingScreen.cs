@@ -6,7 +6,8 @@ using UnityEngine;
 public class SceneLoadingScreen : MonoBehaviour
 {
     [SerializeField] private GameObject _anyKeyText;
-
+    [SerializeField] private GameObject _controller;
+    
     private bool _allowEndingScreen;
     
     void Awake()
@@ -34,5 +35,6 @@ public class SceneLoadingScreen : MonoBehaviour
     private void HideLoadingScreen()
     {
         gameObject.SetActive(false);
+        _controller.gameObject.SetActive(true);
     }
 }
