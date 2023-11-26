@@ -8,7 +8,9 @@ public class JetEventTriggerBox : MonoBehaviour
     [SerializeField] private GameObject _jet;
     [SerializeField] private List<GameObject> _explosions;
     [SerializeField] private AnimationCurve _shakeCurve;
-    [SerializeField] private AudioClip _explosionSound;
+    
+    [SerializeField] private AudioSource _jetSound;
+    [SerializeField] private float _jetSoundDelay;
 
     [SerializeField] private List<float> _explosionDelays;
 
@@ -37,8 +39,16 @@ public class JetEventTriggerBox : MonoBehaviour
         {
             StartCoroutine(ExplodeAfterTime(_explosions[i], _explosionDelays[i]));
         }
+
+        StartCoroutine(PlayJetSoundAfterTime());
     }
 
+    private IEnumerator PlayJetSoundAfterTime()
+    {
+        yield return new WaitForSeconds(_jetSoundDelay);
+        _jetSound.Play();
+    }
+    
     private IEnumerator ExplodeAfterTime(GameObject explosion, float delay)
     {
         yield return new WaitForSeconds(delay);
