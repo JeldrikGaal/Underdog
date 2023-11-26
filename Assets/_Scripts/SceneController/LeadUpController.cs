@@ -116,6 +116,6 @@ public class LeadUpController : MonoBehaviour
 
     public void PlayerLeave()
     {
-        SceneManager.LoadScene("TheEvent 1");
+        SceneManager.LoadScene("GameEnd");
     }
 }
