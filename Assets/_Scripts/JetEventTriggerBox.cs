@@ -17,6 +17,8 @@ public class JetEventTriggerBox : MonoBehaviour
     private CamShake _camShake;
     private BoxCollider _boxCollider;
 
+    [SerializeField] private BuildingCollapser buildingCollapser;
+
     private void Awake()
     {
         _camShake = Camera.main.GetComponent<CamShake>();
@@ -54,6 +56,9 @@ public class JetEventTriggerBox : MonoBehaviour
         yield return new WaitForSeconds(delay);
         StartExplosion(explosion);
         StartCoroutine(_camShake.CustomShake(_shakeCurve));
+        
+        buildingCollapser.StartCollapseSequence();
+        
         /*if (_explosionSound != null)
         {
             _explosionSound.Play();
