@@ -32,12 +32,33 @@ public class CameraController : MonoBehaviour
 
     public bool cameraLocked = false;
 
+    public bool _followingPlayer = true;
+    
     private void Start()
     {
         lastX = target.position.x;
     }
 
     private void Update()
+    {
+        if (IsCameraFollowingPlayer())
+        {
+            PlayerCameraMovement();
+        }
+    }
+
+    public void ChangeCameraTarget(Transform newTarget)
+    {
+        _followingPlayer = false;
+        target = newTarget;
+    }
+
+    private bool IsCameraFollowingPlayer()
+    {
+        return _followingPlayer;
+    }
+
+    private void PlayerCameraMovement()
     {
         if (xLimit1 || xLimit2 || xLimit3)
         {

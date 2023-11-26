@@ -6,6 +6,16 @@ using UnityEngine;
 public class AfterMathController : MonoBehaviour
 {
    [SerializeField] private PlayerUIText _playerUIText;
+   [SerializeField] private CameraController _playerCameraController;
+   [SerializeField] private Transform _tvCameraPosition;
+
+   private void Update()
+   {
+      if (Input.GetKeyDown(KeyCode.L))
+      {
+         TriggerTVSequence();
+      }
+   }
 
    private void Start()
    {
@@ -19,6 +29,7 @@ public class AfterMathController : MonoBehaviour
 
    public void TriggerTVSequence()
    {
-      
+      _playerCameraController.ChangeCameraTarget(_tvCameraPosition);
+      PlayerController.Instance.BlockMovement();
    }
 }
