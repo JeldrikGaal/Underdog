@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PlayerControllerSetup.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/TheEvent 1.unity
+    guid: db0da5158e0d2be4bb275b40be471780
+  - enabled: 1
+    path: Assets/Scenes/LeadUp.unity
+    guid: f28d725a879b7714ebde8bf26a1582ff
+  - enabled: 1
+    path: Assets/Scenes/Aftermath.unity
+    guid: 54d5507c962012344aed188fc193f6c7
   m_configObjects: {}
