@@ -11,6 +11,8 @@ public class WorldText : MonoBehaviour
    [SerializeField] private string _textToDisplay;
    [SerializeField] private float _timeToDisplay;
    [SerializeField] private float _spaceWaitTime;
+   [SerializeField] private bool _looping;
+   [SerializeField] private float _loopingWaitTime;
 
    public void ShowTextByLetter()
    {
@@ -59,6 +61,12 @@ public class WorldText : MonoBehaviour
          {
             yield return new WaitForSeconds(timestep);
          }
+      }
+
+      if (_looping)
+      {
+         yield return new WaitForSeconds(_loopingWaitTime);
+         ShowTextByLetter();
       }
    }
    

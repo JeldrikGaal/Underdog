@@ -33,6 +33,7 @@ public class BaseInteractable : MonoBehaviour
 
     protected void InvokePlayerEnteredRange()
     {
+        Debug.Log("ENTERED RANGE");
         PlayerEnteredRangeToInteract?.Invoke(this);
     }
 

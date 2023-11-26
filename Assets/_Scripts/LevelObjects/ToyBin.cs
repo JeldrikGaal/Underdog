@@ -7,6 +7,10 @@ using Random = UnityEngine.Random;
 
 public class ToyBin : MonoBehaviour
 {
+    private int counter;
+
+    public static event Action<int> ToyCollected;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("toy"))
@@ -19,6 +23,8 @@ public class ToyBin : MonoBehaviour
     {
         Vector3 punch = new Vector3(Random.Range(-1, 1f), Random.Range(-1, 1f), Random.Range(-1, 1f)) * 5;
         transform.DOPunchRotation(punch, 0.5f, 10, 1);
+        counter += 1;
+        ToyCollected?.Invoke(counter);
         Destroy(toy);
     }
 }

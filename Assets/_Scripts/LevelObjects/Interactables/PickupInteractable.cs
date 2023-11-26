@@ -19,8 +19,9 @@ public class PickupInteractable : BaseInteractable
     
     public override void Interact()
     {
-        PickupCollected?.Invoke(this);
+        Debug.Log("teetet");
         InvokePlayerLeftRange();
+        PickupCollected?.Invoke(this);
         if (! IsThrowable())
         {
             Destroy(gameObject);

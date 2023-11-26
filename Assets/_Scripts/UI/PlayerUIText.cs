@@ -8,9 +8,11 @@ public class PlayerUIText : MonoBehaviour
     [SerializeField] private TMP_Text _interactText;
 
     private const string InteractTextContent = "Press E to interact";
+    private const string PickupTextContent = "Press E to pick up";
     private const string WalkTutorialText = "Press A and D to walk";
     private const string ThrowTutorialText = "Press and hold leftclick to aim, release to throw";
-    
+
+    private bool _blockTextChanges; 
     private void OnEnable()
     {
         BaseInteractable.PlayerEnteredRangeToInteract += ShowInteractReady;
@@ -25,34 +27,68 @@ public class PlayerUIText : MonoBehaviour
 
     private void ShowInteractReady(BaseInteractable obj = null)
     {
-        SetInteractText(InteractTextContent);
+        if (obj == null)
+        {
+            SetInteractText(InteractTextContent);
+        }
+        else
+        {
+            if (obj is PickupInteractable)
+            {
+                SetInteractText(PickupTextContent);
+            }
+        }
+        
     }
     
     public void ClearInteractText()
     {
-        _interactText.text = "";
+        Debug.Log("susy");
+        SetInteractText("");
     }
     
     public void ClearInteractText(BaseInteractable obj)
     {
-        _interactText.text = "";
+        SetInteractText("");
     }
     
     public void SetInteractText(string text)
     {
+        if (_blockTextChanges)
+        {
+            return;
+        }
+                
         _interactText.text = text;
     }
     
     public void ShowWalkTutorial()
     {
         SetInteractText(WalkTutorialText);
-        Invoke(nameof(ClearInteractText), 5f);
     }
     
     public void ShowThrowTutorial()
     {
         SetInteractText(ThrowTutorialText);
+        BlockTextChangesForSecond(0.5f);
+        
         Invoke(nameof(ClearInteractText), 5f);
+    }
+
+    private void BlockTextChangesForSecond(float time)
+    {
+        BlockTextChanges();
+        Invoke(nameof(UnBlockTextChanges), time);
+    }
+    
+    private void BlockTextChanges()
+    {
+        _blockTextChanges = true;
+    }
+
+    private void UnBlockTextChanges()
+    {
+        _blockTextChanges = false;
     }
     
     
