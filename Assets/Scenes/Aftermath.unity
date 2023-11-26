@@ -725,7 +725,7 @@ PrefabInstance:
     - target: {fileID: 6539049906766899417, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: _spaceWaitTime
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6539049906766899417, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
@@ -735,7 +735,12 @@ PrefabInstance:
     - target: {fileID: 6539049906766899417, guid: db109c3ab4fe2eb47a16d20935a4d099,
         type: 3}
       propertyPath: _timeToDisplay
-      value: 3
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539049906766899417, guid: db109c3ab4fe2eb47a16d20935a4d099,
+        type: 3}
+      propertyPath: _loopingWaitTime
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
