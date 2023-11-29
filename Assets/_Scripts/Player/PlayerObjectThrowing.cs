@@ -111,10 +111,15 @@ public class PlayerObjectThrowing : MonoBehaviour
 
     private void TryPickUpObject(PickupInteractable pickedUpInteractable)
     {
-        if (pickedUpInteractable.IsThrowable())
+        if (pickedUpInteractable.IsThrowable() && !IsHoldingObject())
         {
             PickupObject(pickedUpInteractable);
         }
+    }
+
+    private bool IsHoldingObject()
+    {
+        return _currentlyHoldingObject != null;
     }
 
     private void PickupObject(PickupInteractable pickedUpInteractable)
