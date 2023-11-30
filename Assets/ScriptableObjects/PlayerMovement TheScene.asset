@@ -15,9 +15,9 @@ MonoBehaviour:
   Acceleration: 5
   Deceleration: 4.5
   MaxVelocity: {x: 4, y: 10}
-  AirBornAcceleartionModifier: 0.6
-  AirBornDeceleartionModifier: 0.33
-  JumpForce: 13
+  AirBornAcceleartionModifier: 0.9
+  AirBornDeceleartionModifier: 0.1
+  JumpForce: 17
   JumpPeakRange: 0.1
   MaxJumpKeyHoldTime: 0.35
   JumpHoldTimeFactor: 1
