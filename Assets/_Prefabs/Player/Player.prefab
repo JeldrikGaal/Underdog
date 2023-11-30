@@ -49,7 +49,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 3586196839991841211}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -77,8 +77,8 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 640, y: 480}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -602,8 +602,8 @@ RectTransform:
   m_GameObject: {fileID: 7317547498166883353}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4872714921225385807}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -965,6 +965,12 @@ PrefabInstance:
 --- !u!4 &26706362057367544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5735972179970584370, guid: 0091643dbbdf1b34aaa9def5a24ed8b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5747900468865495242}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &3586196839991841211 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9079289848444019057, guid: 0091643dbbdf1b34aaa9def5a24ed8b3,
     type: 3}
   m_PrefabInstance: {fileID: 5747900468865495242}
   m_PrefabAsset: {fileID: 0}
