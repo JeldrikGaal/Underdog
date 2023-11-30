@@ -30,9 +30,15 @@ public class PlayerInteraction : MonoBehaviour
       _currentInteractable.Interact();
    }
 
+   private bool IsInteractableThrowable(BaseInteractable interactable)
+   {
+      return interactable.GetType() == typeof(PickupInteractable) && ((PickupInteractable) interactable).IsThrowable();
+   }
+   
    private bool CanInteract()
    {
-      return _currentInteractable != null;
+      // TODO: decouple only quick fix
+      return _currentInteractable != null && !PlayerController.Instance.GetComponent<PlayerObjectThrowing>().IsHoldingObject();
    }
    
    private bool CanSetCurrentInteractable()

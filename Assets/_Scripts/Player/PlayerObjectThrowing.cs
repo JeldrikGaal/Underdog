@@ -117,7 +117,7 @@ public class PlayerObjectThrowing : MonoBehaviour
         }
     }
 
-    private bool IsHoldingObject()
+    public bool IsHoldingObject()
     {
         return _currentlyHoldingObject != null;
     }

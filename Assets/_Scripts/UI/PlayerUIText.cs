@@ -33,7 +33,8 @@ public class PlayerUIText : MonoBehaviour
         }
         else
         {
-            if (obj is PickupInteractable)
+            // TODO: Decouple only quick fix
+            if (obj is PickupInteractable && !PlayerController.Instance.GetComponent<PlayerObjectThrowing>().IsHoldingObject())
             {
                 SetInteractText(PickupTextContent);
             }
@@ -72,7 +73,7 @@ public class PlayerUIText : MonoBehaviour
         SetInteractText(ThrowTutorialText);
         BlockTextChangesForSecond(0.5f);
         
-        Invoke(nameof(ClearInteractText), 5f);
+        Invoke(nameof(ClearInteractText), 10f);
     }
 
     private void BlockTextChangesForSecond(float time)
