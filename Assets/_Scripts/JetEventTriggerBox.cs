@@ -18,6 +18,7 @@ public class JetEventTriggerBox : MonoBehaviour
     private BoxCollider _boxCollider;
 
     [SerializeField] private BuildingCollapser buildingCollapser;
+    [SerializeField] private float  _freezePlayerTime;
 
     private void Awake()
     {
@@ -33,8 +34,28 @@ public class JetEventTriggerBox : MonoBehaviour
         }
     }
 
+    private void FreezePlayerForTime(float time)
+    {
+        FreezePlayer();
+        Invoke(nameof(UnFreezePlayer), time);
+    }
+
+    private void FreezePlayer()
+    {
+        PlayerController.Instance.BlockMovement();
+        
+    }
+    
+    private void UnFreezePlayer()
+    {
+        PlayerController.Instance.UnBlockMovement();
+        
+    }
+
     private void TriggerJetEvent()
     {
+        FreezePlayerForTime(_freezePlayerTime);
+        
         _boxCollider.enabled = false;
         _jet.SetActive(true);
         for (int i = 0; i < _explosions.Count; i++)

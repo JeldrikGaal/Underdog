@@ -249,6 +249,7 @@ public class PlayerController : MonoBehaviour
 
     public void BlockMovement()
     {
+        SetPlayerVelocity(Vector2.zero);
         _movementBlock = true;
     }
 
