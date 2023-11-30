@@ -11,6 +11,9 @@ public class AfterMathController : MonoBehaviour
    [SerializeField] private Transform _tvCameraPosition;
    [SerializeField] private int _neededToysForTV;
    [SerializeField] private WorldText _cleanupText;
+   [SerializeField] private NewsAnchorScript _newsAnchorScript;
+
+   [SerializeField] private SceneEndingScreen _sceneEndingScreen;
 
    private bool _throwTutorialTriggered;
 
@@ -65,13 +68,14 @@ public class AfterMathController : MonoBehaviour
    
    private void TriggerTVSequence()
    {
+      _newsAnchorScript.StartFromBeginning();
       _playerCameraController.ChangeCameraTarget(_tvCameraPosition);
       PlayerController.Instance.BlockMovement();
-      Invoke(nameof(EndAfterMathScene), 20f);
+      Invoke(nameof(EndAfterMathScene), 18f);
    }
 
    private void EndAfterMathScene()
    {
-      SceneManager.LoadScene("TheEvent 1");
+      _sceneEndingScreen.StartEndingSequence();
    }
 }

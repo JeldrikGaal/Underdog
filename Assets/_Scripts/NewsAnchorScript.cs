@@ -10,6 +10,7 @@ public class NewsAnchorScript : MonoBehaviour
     private int _currentText;
     [SerializeField] private float _waitTime;
 
+    private Coroutine _currentlyRunningRoutine;
 
     private void Start()
     {
@@ -20,9 +21,18 @@ public class NewsAnchorScript : MonoBehaviour
     {
         yield return new WaitForSeconds(_waitTime);
         MoveToNextText();
-        StartCoroutine(CycleText());
+        _currentlyRunningRoutine = StartCoroutine(CycleText());
     }
 
+    public void StartFromBeginning()
+    {
+        StopCoroutine(_currentlyRunningRoutine);
+        _texts[_currentText].gameObject.SetActive(false);
+        _currentText = _texts.Count - 1;
+        _texts[_currentText].gameObject.SetActive(true);
+        StartCoroutine(CycleText());
+    }
+    
     private void MoveToNextText()
     {
         _texts[_currentText].gameObject.SetActive(false);

@@ -23,6 +23,8 @@ public class LeadUpController : MonoBehaviour
     
     [SerializeField] private CameraController _playerCameraController;
 
+    [SerializeField] private SceneEndingScreen _sceneEndingScreen;
+    
     private const float WaitTimeGivePlayerControl = 8f;
     private const float WaitTimeAfterEnterSequenceStart = 7f;
     private const float WaitTimeAfterSecondRoomSequence = 10f;
@@ -116,6 +118,6 @@ public class LeadUpController : MonoBehaviour
 
     public void PlayerLeave()
     {
-        SceneManager.LoadScene("GameEnd");
+        _sceneEndingScreen.StartEndingSequence();
     }
 }

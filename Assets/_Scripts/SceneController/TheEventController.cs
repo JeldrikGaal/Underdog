@@ -10,7 +10,8 @@ public class TheEventController : MonoBehaviour
     [SerializeField] private GameObject _lookingGuard1;
     [SerializeField] private GameObject _lookingGuard2;
 
-
+    [SerializeField] private SceneEndingScreen _sceneEndingScreen;
+    
     private void Start()
     {
         ActivateSoldiersWithDelay();
@@ -34,7 +35,7 @@ public class TheEventController : MonoBehaviour
 
     public void LoadLeadUpScene()
     {
-        SceneManager.LoadScene("LeadUp");
+        _sceneEndingScreen.StartEndingSequence();
     }
     
     private void ClimbAnimation()
